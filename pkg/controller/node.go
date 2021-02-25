@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	kubeovnv1 "github.com/alauda/kube-ovn/pkg/apis/kubeovn/v1"
-	"github.com/alauda/kube-ovn/pkg/util"
+	kubeovnv1 "github.com/kubeovn/kube-ovn/pkg/apis/kubeovn/v1"
+	"github.com/kubeovn/kube-ovn/pkg/util"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	k8serrors "k8s.io/apimachinery/pkg/api/errors"
@@ -222,7 +222,7 @@ func (c *Controller) handleAddNode(key string) error {
 	}
 
 	// There is only one nodeAddr temp
-	nodeAddr := util.GetNodeInternalIP(node)
+	nodeAddr := util.GetNodeInternalIP(*node)
 	for _, ip := range strings.Split(ipStr, ",") {
 		if util.CheckProtocol(nodeAddr) == util.CheckProtocol(ip) {
 			err = c.ovnClient.AddStaticRoute("", nodeAddr, ip, c.config.ClusterRouter)
